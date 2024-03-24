@@ -1,6 +1,5 @@
-# mern-template
+# country-guess
 
-    Template for creating full-stack web applications (MERN)
         - backend : NodeJS , ExpressJS , MongoDB
         - frontend : React (JavaScript - Vite)
 
