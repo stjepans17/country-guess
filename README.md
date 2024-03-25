@@ -1,4 +1,5 @@
 # country-guess
+Game that helps you test your knowledge on flags
 
         - backend : NodeJS , ExpressJS , MongoDB
         - frontend : React (JavaScript - Vite)
