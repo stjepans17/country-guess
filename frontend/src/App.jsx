@@ -34,6 +34,7 @@ const App = () => {
                         score={score}
                         setScore={setScore}
                         setUsername={setUsername}
+                        username={username}
                     />
                 }
             />

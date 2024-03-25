@@ -1,7 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Leaderboard = ({}) => {
+    const [playersData, setPlayersData] = useState(null);
+    useEffect(() => {
+        getPlayers();
+    }, []);
+
+    const getPlayers = async () => {
+        try {
+            const response = await axios.get(
+                "http://localhost:4000/data/leaderboard"
+            );
+            const sortedPlayers = response.data.data
+                .sort((a, b) => b.score - a.score)
+                .slice(0, 10);
+            setPlayersData(sortedPlayers);
+        } catch (error) {
+            console.error("Error fetching country data:", error);
+        }
+    };
     return (
         <div>
             <header className="header">
@@ -13,38 +32,18 @@ const Leaderboard = ({}) => {
             </header>
             <div className="container">
                 <div className="buttons-row">
-                    <div className="rules">
+                    <div className="leaderboard">
                         <h1>LEADERBOARD:</h1>
-                        <p>
-                            <b>1.</b> guest (0 points)
-                        </p>
-                        <p>
-                            <b>2.</b> guest (0 points)
-                        </p>
-                        <p>
-                            <b>3.</b> guest (0 points)
-                        </p>
-                        <p>
-                            <b>4.</b> guest (0 points)
-                        </p>
-                        <p>
-                            <b>5.</b> guest (0 points)
-                        </p>
-                        <p>
-                            <b>6.</b> guest (0 points)
-                        </p>
-                        <p>
-                            <b>7.</b> guest (0 points)
-                        </p>
-                        <p>
-                            <b>8.</b> guest (0 points)
-                        </p>
-                        <p>
-                            <b>9.</b> guest (0 points)
-                        </p>
-                        <p>
-                            <b>10.</b> guest (0 points)
-                        </p>
+                        {playersData && (
+                            <div>
+                                {playersData.map((player, index) => (
+                                    <p key={player._id}>
+                                        <b>{index + 1}.</b> {player.username} (
+                                        {player.score} points)
+                                    </p>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

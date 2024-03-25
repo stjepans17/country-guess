@@ -1,12 +1,30 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
-const Result = ({ score, setScore, setUsername }) => {
+const addScoreToLeaderboard = async (username, score) => {
+    try {
+        const response = await axios.post(
+            "http://localhost:4000/data/leaderboard",
+            {
+                username: username,
+                score: score,
+            }
+        );
+        console.log("New entry added to leaderboard:", response.data);
+    } catch (error) {
+        console.error("Error adding entry to leaderboard:", error);
+    }
+};
+
+const Result = ({ score, setScore, setUsername, username }) => {
     const handleClickPlayAgain = () => {
+        addScoreToLeaderboard(username, score);
         setScore(0);
     };
 
     const handleClickChangeUsername = () => {
+        addScoreToLeaderboard(username, score);
         setScore(0);
         setUsername("guest");
     };
@@ -28,7 +46,7 @@ const Result = ({ score, setScore, setUsername }) => {
                                 onClick={handleClickChangeUsername}
                                 id="res-btn"
                             >
-                                Change username
+                                Home
                             </button>
                         </Link>
                     </div>

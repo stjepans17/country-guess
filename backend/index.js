@@ -2,16 +2,18 @@ import express from "express";
 import { PORT, MONGODBURL } from "./config.js";
 import cors from "cors";
 import mongoose from "mongoose";
+import bodyParser from "body-parser";
 
 import route from "./routes/route.js";
 
 const app = express();
 
 app.use(cors());
+app.use(express.json());
 
-app.listen(PORT, () => {
-    console.log(`App is listening on port : ${PORT}`);
-});
+// app.listen(PORT, () => {
+//     console.log(`App is listening on port : ${PORT}`);
+// });
 
 app.get("/", (request, response) => {
     console.log(request);
@@ -20,14 +22,14 @@ app.get("/", (request, response) => {
 
 app.use("/data", route);
 
-// mongoose
-//     .connect(MONGODBURL)
-//     .then(() => {
-//         console.log("App is connected to the database");
-//         app.listen(PORT, () => {
-//             console.log(`App is listening on port : ${PORT}`);
-//         });
-//     })
-//     .catch((error) => {
-//         console.log(error);
-//     });
+mongoose
+    .connect(MONGODBURL)
+    .then(() => {
+        console.log("App is connected to the database");
+        app.listen(PORT, () => {
+            console.log(`App is listening on port : ${PORT}`);
+        });
+    })
+    .catch((error) => {
+        console.log(error);
+    });
